@@ -14,4 +14,4 @@ def load_config_path():
             settings = json.load(f)
             return Path(settings.get("config_path"))
     except (FileNotFoundError, json.JSONDecodeError):
-        return None # Path has not been set yet 
+        return None # Path has not been set ye 
