@@ -4,7 +4,11 @@ from pathlib import Path
 from tkinter import filedialog
 
 
-def load_json_config():
+def load_json_config() -> dict[str, str]:
+    """
+    Loads the path from a local JSON file.
+    Returns: A dictionary with the loaded configuration, or an empty dict if the file is missing/invalid.
+    """
     file = Path("Q3Arena_path.json")
     if file.exists():
         try:
@@ -15,12 +19,20 @@ def load_json_config():
     return {}
 
 
-def write_json_config(config):
+def write_json_config(config: dict[str, str]) -> None:
+    """
+    Writes the given dictionary (containing the Q3Arena path) to a local JSON file.
+    """
     with open("Q3Arena_path.json", "w") as f:
         json.dump(config, f, indent=2)
 
 
-def build_paths(Q3Arena_path):
+def build_paths(Q3Arena_path: str) -> dict[str, Path]:
+    """
+    Builds and validates all derived file paths based on the main Q3Arena directory.
+    Raises: FileNotFoundError if required directories/files are missing.
+    Returns: A dictionary of path strings mapped to Path objects.
+    """
     Q3Arena_path = Path(Q3Arena_path)
     cpma_path = Q3Arena_path / "cpma"
     autoexec_cfg_path = cpma_path / "autoexec.cfg"
@@ -42,7 +54,11 @@ def build_paths(Q3Arena_path):
     }
 
 
-def init_paths():
+def init_paths() -> dict[str, Path]:
+    """
+    Main initialization function. Loads saved path or prompts user via dialog.
+    Returns: A dictionary of Path objects on success, or None if the process fails or is cancelled.
+    """
     config = load_json_config()
 
     # Try to use existing Q3Arena_path
