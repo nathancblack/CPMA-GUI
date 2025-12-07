@@ -4,51 +4,51 @@ from pathlib import Path
 from tkinter import filedialog
 
 
-def load_paths_json():
-    paths_file = Path("Q3Arena_path.json")
-    if paths_file.exists():
+def load_json_config():
+    file = Path("Q3Arena_path.json")
+    if file.exists():
         try:
-            with open(paths_file, "r") as f:
+            with open(file, "r") as f:
                 return json.load(f)
         except json.JSONDecodeError:
             return {}
     return {}
 
 
-def save_paths_json(config):
+def write_json_config(config):
     with open("Q3Arena_path.json", "w") as f:
         json.dump(config, f, indent=2)
 
 
-def calculate_paths(Q3Arena_path):
+def build_paths(Q3Arena_path):
     Q3Arena_path = Path(Q3Arena_path)
-    cpma_dir = Q3Arena_path / "cpma"
-    autoexec_cfg_file = cpma_dir / "autoexec.cfg"
-    gui_cfg_file = cpma_dir / "gui.cfg"
+    cpma_path = Q3Arena_path / "cpma"
+    autoexec_cfg_path = cpma_path / "autoexec.cfg"
+    gui_cfg_path = cpma_path / "gui.cfg"
 
     # Validate required paths
     if not Q3Arena_path.exists():
         raise FileNotFoundError(f"Quake directory not found: {Q3Arena_path}")
-    if not cpma_dir.exists():
-        raise FileNotFoundError(f"CPMA directory not found: {cpma_dir}")
-    if not autoexec_cfg_file.exists():
-        raise FileNotFoundError(f"autoexec.cfg not found: {autoexec_cfg_file}")
+    if not cpma_path.exists():
+        raise FileNotFoundError(f"CPMA directory not found: {cpma_path}")
+    if not autoexec_cfg_path.exists():
+        raise FileNotFoundError(f"autoexec.cfg not found: {autoexec_cfg_path}")
 
     return {
         "Q3Arena_path": Q3Arena_path,
-        "cpma_dir": cpma_dir,
-        "autoexec_cfg_file": autoexec_cfg_file,
-        "gui_cfg_file": gui_cfg_file,
+        "cpma_path": cpma_path,
+        "autoexec_cfg_path": autoexec_cfg_path,
+        "gui_cfg_path": gui_cfg_path,
     }
 
 
-def load_or_prompt_paths():
-    config = load_paths_json()
+def init_paths():
+    config = load_json_config()
 
     # Try to use existing Q3Arena_path
     if "Q3Arena_path" in config:
         try:
-            return calculate_paths(config["Q3Arena_path"])
+            return build_paths(config["Q3Arena_path"])
         except FileNotFoundError:
             pass  # Fall through to prompt user
     Q3Arena_path = filedialog.askdirectory(
@@ -60,14 +60,14 @@ def load_or_prompt_paths():
         return None
 
     try:
-        paths = calculate_paths(Q3Arena_path)
-        save_paths_json({"Q3Arena_path": str(Q3Arena_path)})
+        paths = build_paths(Q3Arena_path)
+        write_json_config({"Q3Arena_path": str(Q3Arena_path)})
         print(f"Selected folder: {Q3Arena_path}")
         return paths
-    except FileNotFoundError as e:
-        print(f"Error: {e}")
+    except FileNotFoundError as error:
+        print(f"Error: {error}")
         return None
 
 
 # Usage
-paths = load_or_prompt_paths()
+paths = init_paths()
