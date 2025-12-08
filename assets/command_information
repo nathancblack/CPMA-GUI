@@ -8,7 +8,6 @@ Mouse input mode.
 1 = Raw input
 2 = Win32 input
 
-
 m_filter <0:1> (default: 0)
 Current: 0
 Module: Input
@@ -801,5 +800,3 @@ Attribute: Archived
 Moves the gun along the x.y.z axis.
 Offset range: [ -9 9]
 Example: /cg_gunOffset 5, -9, 9
-
-
