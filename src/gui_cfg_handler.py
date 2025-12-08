@@ -40,19 +40,13 @@ def load_existing_config(cfg_path: Path):
         matches = re.findall(r'seta\s+(\w+)\s+"(.*?)"', content)
 
         for command, found_value in matches:
-            # We found a command in the file (e.g., 'm_speed' with value '2.5')
-            # Now we must find which dictionary it belongs to and update it.
             found_in_dict = False
-
             for settings_dict in ALL_SETTINGS_GROUPS:
                 if command in settings_dict:
-                    # Update the dictionary value
                     settings_dict[command]["value"] = found_value
+                    #print(f"Updated '{command}' to '{found_value}'")
                     found_in_dict = True
                     break
-
-            # Optional: You could log if a command was found in the file
-            # but not in your dictionary (meaning it might be obsolete).
 
     except Exception as e:
         print(f"Error loading config: {e}")
@@ -70,15 +64,11 @@ def save_current_config(cfg_path: Path):
         ""
     ]
 
-    # Iterate through every dictionary group
     for settings_dict in ALL_SETTINGS_GROUPS:
         for command, data in settings_dict.items():
-
             val = data.get("value")
 
-            # CORE LOGIC: Only write if the value is actively set (not None)
             if val is not None:
-                # Format: seta command "value"
                 lines.append(f'seta {command} "{val}"')
 
     # Ensure the parent directory exists (just in case)
@@ -92,3 +82,44 @@ def save_current_config(cfg_path: Path):
 
     except Exception as e:
         print(f"Error saving config: {e}")
+
+
+# --- TEST CODE ---
+
+if __name__ == "__main__":
+    def load_existing_config_test():
+        print("Loading dictionary from gui.cfg...")
+        print("Dictionary value before: ", MOUSE_SETTINGS["m_speed"]["value"])
+        load_existing_config(Path("gui.cfg"))
+        print("Dictionary value after: ", MOUSE_SETTINGS["m_speed"]["value"])
+
+    def save_current_config_test():
+        with open(Path("gui.cfg"), 'r') as file:
+            file_content = file.read()
+            print(file_content)
+
+        MOUSE_SETTINGS["m_speed"]["value"] = None
+
+        save_current_config(Path("gui.cfg"))
+
+        with open(Path("gui.cfg"), 'r') as file:
+            file_content = file.read()
+            print(file_content)
+
+
+    load_existing_config_test()
+    save_current_config_test()
+
+    """
+    print("Before loading from cfg")
+    for setting_name, setting_data in VIDEO_SETTINGS.items():
+        current_value = setting_data["value"]
+        print(f"Name: {setting_name}, Value: {current_value}")
+
+    print("-------------------- After loading from cfg --------------------")
+    load_existing_config(Path("gui.cfg"))
+        for setting_name, setting_data in VIDEO_SETTINGS.items():
+            current_value = setting_data["value"]
+            print(f"Name: {setting_name}, Value: {current_value}")
+
+    """
