@@ -2,7 +2,10 @@ import json
 import tkinter as tk
 from pathlib import Path
 from tkinter import filedialog
+from typing import Optional
 
+# Global variable to store the paths dictionary once initialized
+_APP_PATHS: Optional[dict[str, Path]] = None
 
 def load_json_config() -> dict[str, str]:
     """
@@ -54,36 +57,61 @@ def build_paths(Q3Arena_path: str) -> dict[str, Path]:
     }
 
 
-def init_paths() -> dict[str, Path]:
+def init_paths() -> Optional[dict[str, Path]]:
     """
-    Main initialization function. Loads saved path or prompts user via dialog.
-    Returns: A dictionary of Path objects on success, or None if the process fails or is cancelled.
+    Main initialization function.
+    Stores the result in the global _APP_PATHS variable.
     """
-    config = load_json_config()
+    global _APP_PATHS
 
-    # Try to use existing Q3Arena_path
+    config = load_json_config()
+    paths = None
+
+    # 1. Try existing path
     if "Q3Arena_path" in config:
         try:
-            return build_paths(config["Q3Arena_path"])
+            paths = build_paths(config["Q3Arena_path"])
         except FileNotFoundError:
-            pass  # Fall through to prompt user
-    Q3Arena_path = filedialog.askdirectory(
-        title="Select your Quake III Arena folder", initialdir="C:/Program Files (x86)"
-    )
+            pass
 
-    if not Q3Arena_path:
-        print("No folder selected")
-        return None
+            # 2. Prompt user if needed
+    if not paths:
+        root = tk.Tk()
+        root.withdraw()
+        selected_path = filedialog.askdirectory(
+            title="Select your Quake III Arena folder",
+            initialdir="C:/Program Files (x86)"
+        )
+        root.destroy()
 
-    try:
-        paths = build_paths(Q3Arena_path)
-        write_json_config({"Q3Arena_path": str(Q3Arena_path)})
-        print(f"Selected folder: {Q3Arena_path}")
-        return paths
-    except FileNotFoundError as error:
-        print(f"Error: {error}")
-        return None
+        if not selected_path:
+            print("No folder selected")
+            return None
+
+        try:
+            paths = build_paths(selected_path)
+            write_json_config({"Q3Arena_path": str(selected_path)})
+        except FileNotFoundError as error:
+            print(f"Error: {error}")
+            return None
+
+    # 3. Store globally and return
+    _APP_PATHS = paths
+    print(f"Paths initialized: {_APP_PATHS['Q3Arena_path']}")
+    return paths
 
 
-# Usage
-paths = init_paths()
+# --- NEW GETTER FUNCTIONS ---
+
+def get_gui_cfg_path() -> Optional[Path]:
+    """Returns the Path to gui.cfg, or None if not initialized."""
+    if _APP_PATHS:
+        return _APP_PATHS["gui_cfg_path"]
+    return None
+
+
+def get_autoexec_path() -> Optional[Path]:
+    """Returns the Path to autoexec.cfg, or None if not initialized."""
+    if _APP_PATHS:
+        return _APP_PATHS["autoexec_cfg_path"]
+    return None
