@@ -1,5 +1,5 @@
 // MOUSE
-in_mouse <0 | 1 | 2 > ( default: 1)
+in_mouse <0:1:2> ( default: 1)
 Current :
 Module: Unknown
 Attributes: Archived, Latched
@@ -9,7 +9,7 @@ Mouse input mode.
 2 = Win32 input
 
 
-m_filter <0 | 1> (default: 0)
+m_filter <0:1> (default: 0)
 Current: 0
 Module: Input
 Attribute: Archived
@@ -21,13 +21,13 @@ Module: Input
 Attribute: Archived
 Mouse sensitivity.
 
-m_yaw < -100.0 to 100.0> (default: 0.022)
+m_yaw <-100.0 to 100.0> (default: 0.022)
 Current: 0.022
 Module: Input
 Attribute: Archived
 Post -accel horizontal mouse sens ..
 
-m_pitch <- 100.0 to 100.0> (default: 0.022)
+m_pitch <-100.0 to 100.0> (default: 0.022)
 Current: 0.022
 Modules: Input. CGame. UI
 Attribute: Archived
@@ -39,7 +39,7 @@ Module: Input
 Attribute: Archived
 Mouse acceleration.
 
-m_accelStyle <0 | 1> {default: 0)
+m_accelStyle <0:1> {default: 0)
 Current: 0
 Module: Input
 Attribute: Archived
@@ -70,7 +70,7 @@ Modules: Common. CGame. UI
 Attribute: Archived
 Max. allowed framerate.
 It's highly recommended to only use 125 or 250 with V-Sync disabled.
-If you see 'connection interruped' with 250. set it back to 125.
+If you see 'connection interrupted' with 250. set it back to 125.
 
 // VIDEO
 r_gamma <0.5 to 3.0> {default: 1.2)
@@ -94,13 +94,13 @@ Module: Renderer
 Attribute: Archived
 How desaturated the final image looks.
 
-r_fullscreen <0 : 1> {default: 1)
+r_fullscreen <0:1> {default: 1)
 Current: 0
 Module: Renderer
 Attributes: Archived. Latched
 Full-screen mode.
 
-r_fullbright <0:1 > {default: 0)
+r_fullbright <0:1>  {default: 0)
 Current: 0
 Module: Renderer
 Attributes: Archived, Latched
@@ -120,7 +120,7 @@ Module: Renderer
 Attributes: Archived, Latched
 Brightness of lightmap textures.
 
-r_vertexLight <0 : 1 > {default: 0)
+r_vertexLight <0:1> {default: 0)
 Current: 0
 Module: Renderer
 Attributes: Archived. Latched
@@ -132,7 +132,7 @@ Module: Renderer
 Attribute: Archived
 Enables dynamic lights.
 
-r_lightmap <0:1 > (default: 0)
+r_lightmap <0:1> (default: 0)
 Current: 0
 Module: Renderer
 Attributes: Archived, Latched
@@ -140,7 +140,7 @@ Renders the lightmaps only.
 Shaders with a lightmap stage will only draw the lightmap stage.
 This is mutually exclusive with r_fullbright.
 
-r_fastsky <0:1 > {default: 0)
+r_fastsky <0:1> {default: 0)
 Current: 0
 Module: Renderer
 Attribute: Archived
@@ -148,7 +148,7 @@ Makes the sky and portals pure black.
 Portal example: the bottom teleporter on q3dm7.
 
 
-r_noportals <0:1 > {default: 0)
+r_noportals <0:1> {default: 0)
 Current: 1
 Module: Renderer
 Attribute: Archived
@@ -161,10 +161,10 @@ Module: Renderer
 Attributes: Archived, Latched
 Max. allowed anisotropy ratio.
 For anisotropic filtering to be enabled, this needs to be 2 or higher.
-2 = 8 - 16 tap filtering
-4 = 16 - 32 tap filtering
-8 = 32 - 64 tap filtering
-16 = 64 - 128 tap
+    2 = 8 - 16 tap filtering
+    4 = 16 - 32 tap filtering
+    8 = 32 - 64 tap filtering
+    16 = 64 - 128 tap
 
 r_textureMode <string> (default: "best" )
 Current: "gl_nearest
@@ -173,7 +173,7 @@ Attributes: Archived. Latched
 Texture filtering mode.
 GL_NEAREST = LEGO(R) mode
 anything else = Normal
-For amisotropic filtering. refer to r_ext_max_anisotropy.
+For anisotropic filtering. refer to r_ext_max_anisotropy.
 
 r_picmip <0 to 16> (default: 0)
 Current: 6
@@ -182,7 +182,7 @@ Attributes: Archived. Latched
 Lowest allowed mip level.
 Lower number means sharper textures.
 
-r_detailtextures <0:1 > {default: 1)
+r_detailtextures <0:1> {default: 1)
 Current: 0
 Module: Renderer
 Attributes: Archived, Latched
@@ -195,20 +195,20 @@ Attribute: Latched
 Colorizes textures based on their mip level.
 This disables MSAA om back-ends that use centroid sampling.
 
-r_teleporterFlash <0:1 > {default: 1)
+r_teleporterFlash <0:1> {default: 1)
 Current: 0
 Module: Renderer
 Attribute: Archived
 Draws bright colors when being teleported.
 
-r_monitor <0:1 > {default: 0)
+r_monitor <0:1> {default: 0)
 Current: 0
 Module: Unknown
 Attributes: Archived. Latched
-1 -based momitor index. 0=primary.
+1 - based monitor index. 0=primary.
 Use /monitorlist to print the list of detected monitors.
 
-r_fullscreen <011 > {default: 1)
+r_fullscreen <0:1 > {default: 1)
 Current: 0
 Module: Renderer
 Attributes: Archived, Latched
@@ -220,18 +220,18 @@ Module: Renderer
 Attribute: Archived
 Image upscaling mode for r_mode 1.
 This will only be active with r_fullscreen 1 and r_mode 1.
-0 = Aspect -ratio preserving upscale (black bars if necessary)
-1 = No scaling, centered
-2 = Full-screem stretching (no black bars)
+    0 = Aspect -ratio preserving upscale (black bars if necessary)
+    1 = No scaling, centered
+    2 = Full-screem stretching (no black bars)
 
 r_mode <0:1:2> {default: 0)
 Current: 0
 Module: Renderer
 Attributes: Archived, Latched
 Video mode to use with r_fullscreen 1.
-0 = No video mode change, desktop resolution
-1 = No video mode change, custom resolution. custom upscaling
-2 = Video mode change. custom resolution
+    0 = No video mode change, desktop resolution
+    1 = No video mode change, custom resolution. custom upscaling
+    2 = Video mode change. custom resolution
 Custom resolution uses r_width and r_height.
 Custom upscaling uses r_blitMode.
 
@@ -264,9 +264,9 @@ Current: 0
 Module: Renderer
 Attribute: Archived
 Screen refresh periods to wait for before swapping buffers.
-N < 0 = Adaptive V-Sync: tears when too late
-N = 0 = No V- Sync
-N > 0 = Standard V-Sync: never tears
+    N < 0 = Adaptive V-Sync: tears when too late
+    N = 0 = No V- Sync
+    N > 0 = Standard V-Sync: never tears
 Adaptive V-Sync is not available when r_backend is D3D11.
 When adaptive V-Sync is not available, standard V-Sync is requested instead.
 Please note that with OpenGL. your driver settings can override any of this.
@@ -291,9 +291,9 @@ Current: 1
 Module: Sound
 Attribute: Archived
 Selects when the audio output should be disabled.
-0 = never
-1 = Window is not focused
-2 = Window is minimized
+    0 = never
+    1 = Window is not focused
+    2 = Window is minimized
 
 s_volume <0.0 to 1.0> {default: 0.2)
 Current: 0
@@ -360,27 +360,27 @@ Current: 1
 Modules: UI. CGame
 Attribute: Archived
 Crosshair visual style.
-0 = No crosshair
-1 = Cross
-2 = Exploded cross
-3 = Disk + dot
-4 = Circle + dot
-5 = Big dot
-6 = Circle + cross
-7 = Big exploded cross
-8 = Big exploded cross + dot
-9 = Side curves + dot
-10 = Circle + dot
-11 = Cross with black outline
-12 = Exploded cross with black outline
-13 = Disk + dot with black outline
-14 = Circle + dot with black outline
-15 = Dot with black outline
-16 = Circle + cross with black outline
-17 = Mirrored L with black outline
-18 = Cross + dot with black outlines
-19 = Side curves + dot with black outline
-20 = Circle + exploded cross + dot
+    0 = No crosshair
+    1 = Cross
+    2 = Exploded cross
+    3 = Disk + dot
+    4 = Circle + dot
+    5 = Big dot
+    6 = Circle + cross
+    7 = Big exploded cross
+    8 = Big exploded cross + dot
+    9 = Side curves + dot
+    10 = Circle + dot
+    11 = Cross with black outline
+    12 = Exploded cross with black outline
+    13 = Disk + dot with black outline
+    14 = Circle + dot with black outline
+    15 = Dot with black outline
+    16 = Circle + cross with black outline
+    17 = Mirrored L with black outline
+    18 = Cross + dot with black outlines
+    19 = Side curves + dot with black outline
+    20 = Circle + exploded cross + dot
 
 cg_crosshairX <-320 to 320> {default: 0)
 Current: 0
@@ -435,10 +435,10 @@ Current: 0
 Modules: UI. CGame
 Attribute: Archived
 Crosshair pulses on events.
-0 = Never pulse
-1 = Pulse on item pick -ups
-2 = Pulse on enemy damage
-3 = Pulse on enemy frags
+    0 = Never pulse
+    1 = Pulse on item pick -ups
+    2 = Pulse on enemy damage
+    3 = Pulse on enemy frags
 
 ch_file <string> (default: "hud")
 Current:"zcpm'
@@ -470,3 +470,336 @@ Controls display of the TargetName and TargetStatus SuperHUD elements for the pl
 
 
 // PLAYER
+name <string> (default: "UnnamedPlayer" )
+Current: "rntu
+Module: Client
+Attributes: Archived, User Info
+Your name.
+
+nick <string> (default: "Short Name" )
+Current: "Short Name
+Modules: UI. CGame
+Attributes: Archived. User Info, User -created
+Short name (max. 5 chars) for team overlay.
+
+color <string> (default: "17770")
+#00000
+Current:
+Modules: UI. CGame
+Attributes: Archived, User Info
+Your own player colors.
+5 color string characters [0 -9a-z]
+Formatted as CHBLS: rail Core, Head, Body. Legs. rail Spiral.
+Requires a PM or FB model.
+Example: /model sarge/pm
+This also affects your teammates' colors if you use cg_forceColors 1 .
+
+model <string> (default: "mynx/pm" )
+Current: "klesk/fb"
+Modules: UI. CGame
+Attributes: Archived. User Info
+Your own player model.
+This also affects your teammates' models if you use cg_forceModel 1.
+
+cg_showPlayerLean <0:1 > { default: 1)
+Current: 0
+Modules: UI. CGame
+Attribute: Archived
+Enables player model leaning.
+O is more accurate in regards to collision models.
+
+cg_forceModel <0:1> {default: 1)
+Current: 1
+Modules: UI. CGame
+Attribute: Archived
+Forces your team to use the same model as you.
+
+cg_enemyModel <string> (default: "keel/pm" )
+Current: "tankjr/pm
+Modules: UI. CGame
+Attribute: Archived
+Displays enemy players with this model.
+Requires cg_forceModel 1.
+
+cg_forceColors <0:1> (default: 1)
+Current: 1
+Modules: UI. CGame
+Attribute: Archived
+Displays teammate models with your own colors.
+
+cg_enemyColors <string> (default: "g2222")
+Current: "22222"
+Modules: UI. CGame
+Attribute: Archived
+Enemy model colors.
+5 color string characters [0-9a-z]
+Formatted as CHBLS: rail Core, Head, Body. Legs, rail Spiral.
+Requires cg_forceColors 1.
+Requires a PM or FB cg_enemymodel.
+Example: /cg_enemyModel sarge/pm
+
+cg_forceTeamModel <0:1 > {default: 0)
+Current: 0
+Modules: UI. CGame
+Attribute: Archived
+Enables the use of cg_teamModel for teammates.
+
+cg_teamModel <string> {default: "sarge/pm" )
+Current: "crash/fb"
+Modules: UI. CGame
+Attribute: Archived
+Displays teammates with this model.
+Requires cg_forceTeamModel 1.
+
+cg_forceTeamColors <bitmask> {default: 15)
+Current: 0
+Modules: UI. CGame
+Attribute: Archived
+Enables the use of cg_redTeamColors/cg_blueTeamColors.
+1 = Enable for your own team when in first person
+2 = Enable for the enemy team when in first person
+4 = Enable when in free-float camera mode
+8 = Only enable for game types with flags
+Requires PM or FB cg_enemymodel/cg_teamModel/model.
+
+
+cg_redTeamColors <string> (default: "cccab" )
+Current: "a7aa0"
+Modules: UI. CGame
+Attribute: Archived
+Red team model colors.
+color string characters [0 -9a -z]
+Formatted as CHBLS: rail Core, Head. Body, Legs. rail Spiral.
+Requires suitable cg_forceTeamColors options.
+Requires PM or FB cg_enemymodel/cg_teamMode l/model.
+
+cg_blueTeamColors <string> {default: "mmmpo" )
+Current: "pypp0"
+Modules: UI. CGame
+Attribute: Archived
+Blue team model colors.
+icolor string characters [0 - 9a-z]
+Formatted as CHBLS: rail Core, Head, Body, Legs, rail Spiral.
+Requires suitable cg_forceTeamColors options.
+Requires PM or FB cg_enemymodel/cg_teamMode l/model.
+
+Can't select a weapon with no ammo.
+
+// WEAPONS
+cg_drawBrightWeapons <bitmask> {default: 0)
+Current: 0
+Modules: UI. CGame
+Attribute: Archived
+Enables fullbright weapons.
+    1 = First-person. your own gun
+    2 = First -person. carried by teammates
+    4 = First-person. carried by enemies
+    8 = Weapons lying on the map
+    16 = Free-float camera, carried by players
+
+cg_drawBrightSpawns <0:1> {default: 0)
+Current: 0
+Modules: UI. CGame
+Attribute: Archived
+Draws spawn points more visibly.
+
+cg_noAmmoChange <0:1:2> { default: 1)
+Current: 1
+Modules: UI. CGame
+Attribute: Archived
+Allows from/to out -of - ammo gun changes.
+When out of ammo and firing:
+    0 = Switches to the next weapon.
+    1 = Switches to the next weapon. Can select a weapon with no ammo.
+    2 = Keeps the current weapon. Can select a weapon with no ammo.
+
+cg_autoswitch <0:1> {default: 0)
+Current: 0
+Modules: UI. CGame
+Attribute: Archived
+Auto-switch to the weapon you pick up.
+
+cg_ammoWarning <0:1>  { default: 1)
+Current: 1
+Modules: UI. CGame
+Attribute: Archived
+Out-of-ammo click sound.
+Relevant SuperHUD element: AmmoMessage
+
+cg_fallKick <0:1> {default: 1)
+Current: 0
+Modules: UI. CGame
+Attribute: Archived
+Enables camera bounce after a fall.
+
+
+cg_viewAdjustments <0:1> {default: 0)
+Current: 0
+Modules: UI. CGame
+Attribute: Archived
+Toggle for all cg_run and cg_bob+ cvars.
+
+cg_zoomAnimatiomTime <0 to 500> (default: 150)
+Current: 100
+Modules: UI. CGame
+Attribute: Archived
+Zoom in/out duration in ms.
+
+cg_trueLightning <-1.0 to 1.0> (default: 1)
+Current: 1
+Modules: UI. CGame
+Attribute: Archived
+LG beam prediction control.
+    -1 = Pure client .side (no sway, no beam drawn)
+    0 = Pure server.side (sways the most)
+    1 = Pure client -side (no sway)
+Fractional values: mix between server and client rendering
+Negative values: the beam isn't drawn
+Negative fractional values still affect impact mark placement.
+
+cg_altLightning <string> (default: "233")
+Current: "3"
+Modules: UI. CGame
+Attribute: Archived
+LG beam style.
+3 characters specifying the visual style:
+    0 = Original (pre-TA) id LG beam
+    1 = CPMA lightning
+    2 = Thin lightning
+    3 = Lightning using 1.44 render
+Characters in order:
+    1. Self
+    2. Enemies
+    3. Teammates
+Example: /cg_altLightning 032
+
+cg_altPlasma <0:1> (default: 0)
+Current: 1
+Modules: UI. CGame
+Attribute: Archived
+Enables the CPMA PG
+
+cg_simpleltems <0:1> (default: 0)
+Current: 1
+Modules: UI. CGame
+Attribute: Archived
+Shows items as sprites.
+cg_shadows <0:1 > (default: 1)
+Current: 1
+Modules: UI. CGame
+Attribute: Archived
+Player shadows (other players only).
+
+cg_itemFX <bitmask> (default: 7)
+Current: 7
+Modules: UI. CGame
+Attribute: Archived
+Set of allowed item effects.
+    1 = Bob up and down
+    2 = Rotate (asymmetric items will always rotate)
+    4 = Scale up on respawn
+
+cg_railStyle <bitmask> (default: 3)
+Current: 3
+Modules: UI. CGame
+Attribute: Archived
+Rail trail visual elements.
+    1 = Core
+    2 = Spiral
+    4 = Rings
+
+cg_railTrallTime <0 to 10000> (default: 400)
+Current: 333
+Modules: UI. CGame
+Attribute: Archived
+Rail trail visibility duration in ms.
+
+cg_railCoreWidth <0 to 200> (default: 2)
+Current: 2
+Modules: UI. CGame
+Attribute: Archived
+Width of the rail core.
+
+cg_railRingStep <0 to 200> (default: 32)
+Current: 1
+Modules: UI. CGame
+Attribute: Archived
+Distance between the rail rings.
+
+cg_railRingWidth <0 to 200> (default: 8)
+Current: 3
+Modules: UI. CGame
+Attribute: Archived
+Width of the rail rings.
+
+
+h
+
+cg_gunOffset
+
+cg_gibs <0:1> (default: 1)
+Current: 1
+Modules: UI. CGame
+Attribute: Archived
+Enables the gibs and blood spatter effect.
+
+com_blood <0:1:2> (default: 0)
+Current: 2
+Modules: UI. CGame
+Attribute: Archived
+Draws blood when players are hit.
+    0 = Disabled
+    1 = Old style: large, long. slow updates
+    2 = New style: small, short. fast updates
+
+cg_smoke_SG <0:1> (default: 1)
+Current: 1
+Modules: UI. CGame
+Attribute: Archived
+Smoke on the shotgun blast.
+
+cg_smokeRadius_GL <0.0 to 32.0> (default: 6)
+Current: 1
+Modules: UI. CGame
+Attribute: Archived
+Size of the smoke trail for grenades.
+
+cg_smokeRadius_RL <0.0 to 32.0> (default: 4)
+Current: 1
+Modules: UI. CGame
+Attribute: Archived
+Size of the smoke trail for rockets.
+
+cg_lightningImpact <0:1:2> (default: 0)
+Current:
+Modules: UI. CGame
+Attribute: Archived
+Draws an impact mark and sparks for the LG.
+0 = Nothing
+1 = Impact
+2 = Impact + sparks
+
+cg_muzzleFlash <0:1> (default: 1)
+Current: 1
+Modules: UI. CGame
+Attribute: Archived
+Draws a muzzle flash when your gun is firing.
+
+cg_drawGun <0:1:2> (default: 2)
+Current: 1
+Modules: UI. CGame
+Attribute: Archived
+Gun display mode.
+    0 = No gun
+    1 = Gun visible, sways
+    2 = Gun visible, doesn't sway
+
+cg_gunOffset <string> (default: "5, 0, 0")
+Current: "8, - 6, -2"
+Modules: UI. CGame
+Attribute: Archived
+Moves the gun along the x.y.z axis.
+Offset range: [ -9 9]
+Example: /cg_gunOffset 5, -9, 9
+
+
