@@ -632,7 +632,7 @@ WEAPON_SETTINGS = {
         "game_default": "3",
         "description": "Rail trail elements. 1=Core, 2=Spiral, 4=Rings."
     },
-    "cg_railTrallTime": {
+    "cg_railTrailTime": {
         "value": None,
         "type": "int",
         "min": 0,
