@@ -85,7 +85,7 @@ def save_current_config(cfg_path: Path):
 
 
 # --- TEST CODE ---
-
+"""
 if __name__ == "__main__":
     def load_existing_config_test():
         print("Loading dictionary from gui.cfg...")
@@ -110,7 +110,6 @@ if __name__ == "__main__":
     load_existing_config_test()
     save_current_config_test()
 
-    """
     print("Before loading from cfg")
     for setting_name, setting_data in VIDEO_SETTINGS.items():
         current_value = setting_data["value"]
