@@ -210,5 +210,6 @@ __marimo__/
 
 Quake III Arena/
 Quake3
-command_information
-gui.cfg
+assets
+assets/command_information
+assets/gui.cfg
