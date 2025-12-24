@@ -27,30 +27,19 @@ def load_existing_config(cfg_path: Path):
     if not cfg_path.exists():
         return
 
-    try:
-        with open(cfg_path, "r") as f:
-            content = f.read()
+    with open(cfg_path, "r") as f:
+        content = f.read()
 
-        # Regex explanation:
-        # seta   -> looks for the literal word 'seta'
-        # \s+    -> followed by one or more spaces
-        # (\w+)  -> captures the command name (Group 1)
-        # \s+    -> followed by spaces
-        # "(.*?)"-> captures the value inside double quotes (Group 2)
-        matches = re.findall(r'seta\s+(\w+)\s+"(.*?)"', content)
+    matches = re.findall(r'seta\s+(\w+)\s+"(.*?)"', content)
 
-        for command, found_value in matches:
-            found_in_dict = False
-            for settings_dict in ALL_SETTINGS_GROUPS:
-                if command in settings_dict:
-                    settings_dict[command]["value"] = found_value
-                    #print(f"Updated '{command}' to '{found_value}'")
-                    found_in_dict = True
-                    break
-
-    except Exception as e:
-        print(f"Error loading config: {e}")
-
+    for command, found_value in matches:
+        found_in_dict = False
+        for settings_dict in ALL_SETTINGS_GROUPS:
+            if command in settings_dict:
+                settings_dict[command]["value"] = found_value
+                #print(f"Updated '{command}' to '{found_value}'")
+                found_in_dict = True
+                break
 
 def save_current_config(cfg_path: Path):
     """
@@ -71,54 +60,6 @@ def save_current_config(cfg_path: Path):
             if val is not None:
                 lines.append(f'seta {command} "{val}"')
 
-    # Ensure the parent directory exists (just in case)
-    if not cfg_path.parent.exists():
-        cfg_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(cfg_path, "w") as f:
+        f.write("\n".join(lines))
 
-    try:
-        with open(cfg_path, "w") as f:
-            f.write("\n".join(lines))
-        print(f"Successfully saved configuration to {cfg_path}")
-
-    except Exception as e:
-        print(f"Error saving config: {e}")
-
-
-# --- TEST CODE ---
-"""
-if __name__ == "__main__":
-    def load_existing_config_test():
-        print("Loading dictionary from gui.cfg...")
-        print("Dictionary value before: ", MOUSE_SETTINGS["m_speed"]["value"])
-        load_existing_config(Path("gui.cfg"))
-        print("Dictionary value after: ", MOUSE_SETTINGS["m_speed"]["value"])
-
-    def save_current_config_test():
-        with open(Path("gui.cfg"), 'r') as file:
-            file_content = file.read()
-            print(file_content)
-
-        MOUSE_SETTINGS["m_speed"]["value"] = None
-
-        save_current_config(Path("gui.cfg"))
-
-        with open(Path("gui.cfg"), 'r') as file:
-            file_content = file.read()
-            print(file_content)
-
-
-    load_existing_config_test()
-    save_current_config_test()
-
-    print("Before loading from cfg")
-    for setting_name, setting_data in VIDEO_SETTINGS.items():
-        current_value = setting_data["value"]
-        print(f"Name: {setting_name}, Value: {current_value}")
-
-    print("-------------------- After loading from cfg --------------------")
-    load_existing_config(Path("gui.cfg"))
-        for setting_name, setting_data in VIDEO_SETTINGS.items():
-            current_value = setting_data["value"]
-            print(f"Name: {setting_name}, Value: {current_value}")
-
-    """
