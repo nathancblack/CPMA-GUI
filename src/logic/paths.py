@@ -57,6 +57,9 @@ class PathManager:
         self.paths[key] = str(Path(path_str))
         self._save_paths()
 
+    def get_game_root(self):
+        return self.paths.get("game_root")
+
     def get_path_autoexec(self):
         return self.paths.get("autoexec")
 

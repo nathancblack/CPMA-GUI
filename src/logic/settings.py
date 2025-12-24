@@ -831,7 +831,7 @@ WEAPON_SETTINGS = {
 }
 
 KEYBIND_SETTINGS = {
-"vstr _weap1": {
+    "vstr _weap1": {
         "value": None,
         "label": "Gauntlet"
     },

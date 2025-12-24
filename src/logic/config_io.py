@@ -26,6 +26,7 @@ def load_existing_config(cfg_path: Path):
     Reads the existing gui.cfg file and updates the 'value' key
     in the global settings dictionaries for any matching commands found.
     """
+    cfg_path = Path(cfg_path)
     if not cfg_path.exists():
         return
 
@@ -76,4 +77,3 @@ def save_current_config(cfg_path: Path):
 
     with open(cfg_path, "w") as f:
         f.write("\n".join(lines))
-
