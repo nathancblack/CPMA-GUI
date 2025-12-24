@@ -1,8 +1,8 @@
 import customtkinter as ctk
 import tkinter as tk  # We still need this for BooleanVar/StringVar
 from tkinter import messagebox
-from src import config_io, paths
-from src.settings import (
+from src.logic import config_io, paths
+from src.logic.settings import (
     VIDEO_SETTINGS,
     MOUSE_SETTINGS,
     AUDIO_SETTINGS,

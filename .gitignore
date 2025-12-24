@@ -210,4 +210,5 @@ __marimo__/
 
 Quake III Arena/
 Quake3
-src/ui/Q3Arena_path.json
+command_information
+gui.cfg

@@ -1,6 +1,6 @@
 import re
 from pathlib import Path
-from src.settings import (
+from src.logic.settings import (
     VIDEO_SETTINGS,
     MOUSE_SETTINGS,
     AUDIO_SETTINGS,
