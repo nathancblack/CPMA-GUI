@@ -1,9 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
-from pathlib import Path
 
 from src.logic.paths import PathManager
+from src.logic.settings import VIDEO_SETTINGS
 paths = PathManager()
 
 app = tk.Tk()
@@ -74,30 +74,27 @@ tabControl.add(tab5, text ="Player")
 tabControl.add(tab6, text ="Weapons")
 tabControl.add(tab7, text ="Keybinds")
 
-# VIDEO TAB
-ttk.Label(tab1, text="r_gamma", font=('calibre',10, 'bold')).grid(column = 0, row = 0, sticky='w', padx=(0,40))
-ttk.Label(tab1, text="Gamma correction factor", font=('calibre',10)).grid(column = 1, row = 0, sticky='w')
-ttk.Entry(tab1, width=8).grid(column = 0, row = 1, sticky='w')
-ttk.Label(tab1, text="<0.5 to 3.0> (default 1.2)", font=('calibre',10, 'bold')).grid(column = 1, row = 1, sticky='w')
+row_i = 0
+for i in VIDEO_SETTINGS:
+    ttk.Label(tab1, text=VIDEO_SETTINGS[i]["label"], font=('calibre',10, 'bold')).grid(row = 0+row_i, column = 0,  sticky='w', pady=(15,0), padx=(0,15))
+    ttk.Label(tab1, text=VIDEO_SETTINGS[i]["description"], font=('calibre',10)).grid(row = 0+row_i, column = 1, sticky='w', pady=(15,0))
 
+    if 'min' in VIDEO_SETTINGS[i]:
+        ttk.Label(tab1, text=f"<{VIDEO_SETTINGS[i]['min']} to {VIDEO_SETTINGS[i]['max']}> (default: {VIDEO_SETTINGS[i].get('game_default','')})", font=('calibre',10, 'bold')).grid(row = 1+row_i, column=1, sticky='w')
+    else:
+        ttk.Label(tab1, text=f"(default: {VIDEO_SETTINGS[i]['game_default']})", font=('calibre',10, 'bold')).grid(row = 1+row_i, column=1, sticky='w')
 
-ttk.Label(tab1, text="r_intensity", font=('calibre',10, 'bold')).grid(column = 0, row = 2, sticky='w', pady=(15, 0))
-ttk.Label(tab1, text="Brightness of non-lightmap map textures", font=('calibre',10)).grid(column = 1, row = 2, sticky='w', pady=(15, 0))
-ttk.Entry(tab1, width=8).grid(column = 0, row = 3, sticky='w')
-ttk.Label(tab1, text="<1.0 to +inf> (default: 1)", font=('calibre',10, 'bold')).grid(column = 1, row = 3, sticky='w')
-
-
-ttk.Label(tab1, text="r_greyscale", font=('calibre',10, 'bold')).grid(column = 0, row = 4, sticky='w', pady=(15, 0))
-ttk.Label(tab1, text="How desaturated the final image looks", font=('calibre',10)).grid(column = 1, row = 4, sticky='w', pady=(15, 0))
-ttk.Entry(tab1, width=8).grid(column = 0, row = 5, sticky='w')
-ttk.Label(tab1, text="<0.0 to 1.0> (default: 0)", font=('calibre',10, 'bold')).grid(column = 1, row = 5, sticky='w')
-
-
-ttk.Label(tab1, text="r_fullscreen", font=('calibre',10, 'bold')).grid(column = 0, row = 6, sticky='w', pady=(15, 0))
-ttk.Label(tab1, text="Full-screen mode", font=('calibre',10)).grid(column = 1, row = 6, sticky='w', pady=(15, 0))
-ttk.Combobox(tab1, values=["", "0", "1"], state="readonly", width=6).grid(column = 0, row = 7, sticky='w')
-ttk.Label(tab1, text="<0:1> (default: 1)", font=('calibre',10, 'bold')).grid(column = 1, row = 7, sticky='w')
-
+    if VIDEO_SETTINGS[i]['type'] in ["float","int"] :
+        ttk.Entry(tab1, width=8).grid(column = 0, row = 1+row_i, sticky='w')
+    elif VIDEO_SETTINGS[i]['type'] == "bool" :
+        ttk.Combobox(tab1, values=["", "0", "1"], state="readonly", width=6).grid(column = 0, row = 1+row_i, sticky='w')
+    elif VIDEO_SETTINGS[i]['type'] == "discrete" :
+        ttk.Combobox(tab1, values=["", "0", "1", "2"], state="readonly", width=6).grid(column = 0, row = 1+row_i, sticky='w')
+    elif VIDEO_SETTINGS[i]['type'] == "string" :
+        ttk.Label(tab1, text="STRING", font=('calibre',10, 'bold')).grid(column = 0, row = 1+row_i, sticky='w')
+    else:
+        pass
+    row_i += 2
 
 # SAVE BUTTON
 save_config_button = ttk.Button(app, text='Save Config')
