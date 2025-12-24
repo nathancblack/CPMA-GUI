@@ -829,3 +829,154 @@ WEAPON_SETTINGS = {
         "label": "Gun Offset"
     }
 }
+
+KEYBIND_SETTINGS = {
+"vstr _weap1": {
+        "value": None,
+        "label": "Gauntlet"
+    },
+    "vstr _weap2": {
+        "value": None,
+        "label": "Machine Gun"
+    },
+    "vstr _weap3": {
+        "value": None,
+        "label": "Shotgun"
+    },
+    "vstr _weap4": {
+        "value": None,
+        "label": "Grenade Launcher"
+    },
+    "vstr _weap5": {
+        "value": None,
+        "label": "Rocket Launcher"
+    },
+    "vstr _weap6": {
+        "value": None,
+        "label": "Lightning Gun"
+    },
+    "vstr _weap7": {
+        "value": None,
+        "label": "Rail Gun"
+    },
+    "vstr _weap8": {
+        "value": None,
+        "label": "Plasma Gun"
+    },
+    "vstr _weap9": {
+        "value": None,
+        "label": "BFG"
+    },
+    "+forward": {
+        "value": None,
+        "label": "Move Forward"
+    },
+    "+back": {
+        "value": None,
+        "label": "Move Backward"
+    },
+    "+moveleft": {
+        "value": None,
+        "label": "Move Left"
+    },
+    "+moveright": {
+        "value": None,
+        "label": "Move Right"
+    },
+    "+movedown": {
+        "value": None,
+        "label": "Crouch"
+    },
+    "+speed": {
+        "value": None,
+        "label": "Walk"
+    },
+    "+moveup": {
+        "value": None,
+        "label": "Jump"
+    },
+    "+attack": {
+        "value": None,
+        "label": "Shoot"
+    },
+    "+zoom": {
+        "value": None,
+        "label": "Zoom"
+    },
+    "+button3;-button3": {
+        "value": None,
+        "label": "Taunt"
+    },
+    "kill": {
+        "value": None,
+        "label": "Commit Suicide"
+    },
+    "toggle ch_drawwarmup": {
+        "value": None,
+        "label": "Toggle Match Settings"
+    },
+    "+scores": {
+        "value": None,
+        "label": "Scoreboard"
+    },
+    "messagemode": {
+        "value": None,
+        "label": "Chat"
+    },
+    "messagemode2": {
+        "value": None,
+        "label": "Team Chat"
+    },
+    "colorlist": {
+        "value": None,
+        "label": "Show Color Tokens"
+    },
+    "cvar_add s_volume -0.05;con_echo ^7volume ^o$(s_volume);play sound/misc/menu2": {
+        "value": None,
+        "label": "Decrease Volume"
+    },
+    "cvar_add s_volume +0.05;con_echo ^7volume ^o$(s_volume);play sound/misc/menu2": {
+        "value": None,
+        "label": "Increase Volume"
+    },
+    "speconly;play sound/misc/menu1": {
+        "value": None,
+        "label": "Spectator Only Mode"
+    },
+    "team s;con_echo ^zSPEC;play sound/misc/menu1": {
+        "value": None,
+        "label": "Join Spectator Queue"
+    },
+    "team r;con_echo ^1RED": {
+        "value": None,
+        "label": "Join Red Team"
+    },
+    "team b;con_echo ^pBLUE": {
+        "value": None,
+        "label": "Join Blue Team"
+    },
+    "vote yes;play sound/misc/menu2": {
+        "value": None,
+        "label": "Vote YES"
+    },
+    "vote no;play sound/misc/menu3": {
+        "value": None,
+        "label": "Vote NO"
+    },
+    "vstr _ready": {
+        "value": None,
+        "label": "Toggle Ready Status"
+    },
+    "screenshotJPEG;play sound/misc/menu1": {
+        "value": None,
+        "label": "Take Screenshot"
+    },
+    "timeout;play sound/misc/menu3": {
+        "value": None,
+        "label": "Take Timeout"
+    },
+    "timein;play sound/misc/menu2": {
+        "value": None,
+        "label": "Withdraw Timeout"
+    }
+}

@@ -6,7 +6,8 @@ from src.logic.settings import (
     AUDIO_SETTINGS,
     HUD_SETTINGS,
     PLAYER_SETTINGS,
-    WEAPON_SETTINGS
+    WEAPON_SETTINGS,
+    KEYBIND_SETTINGS
 )
 
 ALL_SETTINGS_GROUPS = [
@@ -15,7 +16,8 @@ ALL_SETTINGS_GROUPS = [
     AUDIO_SETTINGS,
     HUD_SETTINGS,
     PLAYER_SETTINGS,
-    WEAPON_SETTINGS
+    WEAPON_SETTINGS,
+    KEYBIND_SETTINGS
 ]
 
 
@@ -30,16 +32,25 @@ def load_existing_config(cfg_path: Path):
     with open(cfg_path, "r") as f:
         content = f.read()
 
-    matches = re.findall(r'seta\s+(\w+)\s+"(.*?)"', content)
-
-    for command, found_value in matches:
-        found_in_dict = False
+    seta_matches = re.findall(r'seta\s+(\w+)\s+"(.*?)"', content)
+    for command, found_value in seta_matches:
         for settings_dict in ALL_SETTINGS_GROUPS:
+            # Skip keybinds here, they are handled below
+            if settings_dict is KEYBIND_SETTINGS:
+                continue
+
             if command in settings_dict:
                 settings_dict[command]["value"] = found_value
-                #print(f"Updated '{command}' to '{found_value}'")
-                found_in_dict = True
                 break
+
+
+    bind_matches = re.findall(r'bind\s+(\S+)\s+"(.*?)"', content)
+
+    for found_key, found_action in bind_matches:
+        clean_key = found_key.strip('"')
+
+        if found_action in KEYBIND_SETTINGS:
+            KEYBIND_SETTINGS[found_action]["value"] = clean_key
 
 def save_current_config(cfg_path: Path):
     """
@@ -58,7 +69,10 @@ def save_current_config(cfg_path: Path):
             val = data.get("value")
 
             if val is not None:
-                lines.append(f'seta {command} "{val}"')
+                if settings_dict is KEYBIND_SETTINGS:
+                    lines.append(f'bind {val} "{command}"')
+                else:
+                    lines.append(f'seta {command} "{val}"')
 
     with open(cfg_path, "w") as f:
         f.write("\n".join(lines))
