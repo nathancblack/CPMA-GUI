@@ -1,5 +1,6 @@
 import re
 from pathlib import Path
+from typing import Dict, List
 from src.logic.settings import (
     VIDEO_SETTINGS,
     MOUSE_SETTINGS,
@@ -20,44 +21,31 @@ ALL_SETTINGS_GROUPS = [
     KEYBIND_SETTINGS
 ]
 
+def extract_seta_commands(content: str) -> Dict[str, str]:
+    matches = re.findall(r'seta\s+(\w+)\s+"(.*?)"', content)
+    return {command: value for command, value in matches}
 
-def load_existing_config(cfg_path: Path):
-    """
-    Reads the existing gui.cfg file and updates the 'value' key
-    in the global settings dictionaries for any matching commands found.
-    """
-    cfg_path = Path(cfg_path)
-    if not cfg_path.exists():
-        return
+def extract_bind_commands(content: str) -> Dict[str, str]:
+    matches = re.findall(r'bind\s+(\S+)\s+"(.*?)"', content)
+    return {action: key.strip('"') for key, action in matches}
 
-    with open(cfg_path, "r") as f:
-        content = f.read()
+def apply_seta_values(extracted_values: Dict[str, str], settings_groups: List[Dict]):
+    for settings_dict in settings_groups:
+        if settings_dict is KEYBIND_SETTINGS:
+            continue
 
-    seta_matches = re.findall(r'seta\s+(\w+)\s+"(.*?)"', content)
-    for command, found_value in seta_matches:
-        for settings_dict in ALL_SETTINGS_GROUPS:
-            # Skip keybinds here, they are handled below
-            if settings_dict is KEYBIND_SETTINGS:
-                continue
-
+        for command, new_value in extracted_values.items():
             if command in settings_dict:
-                settings_dict[command]["value"] = found_value
-                break
+                settings_dict[command]["value"] = new_value
 
+def apply_bind_values(extracted_binds: Dict[str, str], bind_settings: Dict):
+    for action, key in extracted_binds.items():
+        if action in bind_settings:
+            bind_settings[action]["value"] = key
 
-    bind_matches = re.findall(r'bind\s+(\S+)\s+"(.*?)"', content)
+def generate_config_content(settings_groups: List[Dict]) -> str:
+    # Generates the full string content for the config file
 
-    for found_key, found_action in bind_matches:
-        clean_key = found_key.strip('"')
-
-        if found_action in KEYBIND_SETTINGS:
-            KEYBIND_SETTINGS[found_action]["value"] = clean_key
-
-def save_current_config(cfg_path: Path, autoexec_path: Path):
-    """
-    Wipes the gui.cfg file and rewrites it using ONLY the values
-    from the dictionaries that are NOT None.
-    """
     lines = [
         "// CPMA GUI Configuration File",
         "// Generated automatically by CPMA Config Editor",
@@ -65,26 +53,77 @@ def save_current_config(cfg_path: Path, autoexec_path: Path):
         ""
     ]
 
-    append_to_autoexec(autoexec_path)
+
+    for settings_dict in settings_groups:
+       lines.extend(_format_group(settings_dict))
+
+    return "\n".join(lines)
+
+
+def _format_group(settings_dict: Dict) -> List[str]:
+    lines = []
+    is_keybind_group = (settings_dict is KEYBIND_SETTINGS)
+
+    for command, data in settings_dict.items():
+        val = data.get("value")
+        if val is not None:
+            if is_keybind_group:
+                lines.append(f'bind {val} "{command}"')
+            else:
+                lines.append(f'seta {command} "{val}"')
+
+    return lines
+
+def load_existing_config(cfg_path: Path):
+    cfg_path = Path(cfg_path)
+
+    if not cfg_path.exists():
+        return
+
+    content = cfg_path.read_text()
+
+    found_setas = extract_seta_commands(content)
+    found_binds = extract_bind_commands(content)
+
+    apply_seta_values(found_setas, ALL_SETTINGS_GROUPS)
+    apply_bind_values(found_binds, KEYBIND_SETTINGS)
+
+def save_current_config(cfg_path: Path, autoexec_path: Path):
+    cfg_path = Path(cfg_path)
+
+    ensure_autoexec_reference(autoexec_path)
+
+    file_content = generate_config_content(ALL_SETTINGS_GROUPS)
+
+    cfg_path.write_text(file_content, encoding='utf-8')
+
+def ensure_autoexec_reference(autoexec_path: Path):
+    autoexec_path = Path(autoexec_path)
+    target_line = f"exec gui.cfg"
+
+    content = autoexec_path.read_text()
+    if target_line not in content.lower():
+        with open(autoexec_path, "a") as f:
+            f.write(f"\n// Load the GUI config\n{target_line} // Ensure that this is the last line in the file!!\n")
+
+
+# ------------------- TEST FUNCTIONS -------------------
+
+def test_save_and_load(cfg_path_1: Path, cfg_path_2: Path):
+    for settings_dict in ALL_SETTINGS_GROUPS:
+        for key, details in settings_dict.items():
+            print(f"{key}: {details['value']}")
+
+    print("\033[91m----------------------------------------------------------- LOADING DICTIONARY FROM CFG -----------------------------------------------------------\033[0m")
+    load_existing_config(cfg_path_1)
 
     for settings_dict in ALL_SETTINGS_GROUPS:
-        for command, data in settings_dict.items():
-            val = data.get("value")
+        for key, details in settings_dict.items():
+            print(f"{key}: {details['value']}")
 
-            if val is not None:
-                if settings_dict is KEYBIND_SETTINGS:
-                    lines.append(f'bind {val} "{command}"')
-                else:
-                    lines.append(f'seta {command} "{val}"')
+    save_current_config(cfg_path_2, "test_autoexec.cfg")
 
-    with open(cfg_path, "w") as f:
-        f.write("\n".join(lines))
+# cfg_path_1 should be a filled config file
+# cfg_path_2 should be an empty config file
 
-def append_to_autoexec(autoexec_path: Path):
-    with open(autoexec_path, "r") as f:
-        content = f.read()
-
-    if "exec gui.cfg" not in content.lower():
-        with open(autoexec_path, "a") as f:
-            f.write("\n// Load the GUI config\n")
-            f.write("exec gui.cfg\n")
+# test_save_and_load("test1.cfg", "test2.cfg")
