@@ -1,11 +1,27 @@
 import json
+import subprocess
+import os
 from pathlib import Path
 
 
 class PathManager:
-    def __init__(self, paths_file="paths.json"):
-        self.paths_file = Path(paths_file)
+    def __init__(self, config_folder_name="CPMA_Config_Editor", filename="paths.json"):
+        # 1. Get the standard Windows AppData folder
+        # e.g., C:\Users\Nathaniel\AppData\Roaming
+        appdata = os.getenv('APPDATA')
+
+        # 2. Define your specific folder
+        self.config_dir = Path(appdata) / config_folder_name
+
+        # 3. Create the folder if it doesn't exist yet
+        self.config_dir.mkdir(parents=True, exist_ok=True)
+
+        # 4. Set the full path to the json file
+        self.paths_file = self.config_dir / filename
+
+        print(f"Path Manager initialized. Storage: {self.paths_file}")
         self.paths = self._load_paths()
+        self.missing = []
 
     def _load_paths(self):
         # Specifically loads the path mapping from the JSON file
@@ -37,13 +53,12 @@ class PathManager:
 
         self._save_paths()
 
-        missing = []
         if not found_cpma:
-            missing.append("cpma_dir")
+            self.missing.append("cpma_dir")
         if not found_autoexec:
-            missing.append("autoexec")
+            self.missing.append("autoexec")
 
-        return missing
+        return self.missing
 
     def set_game_exe(self, path_str):
         path = Path(path_str)
@@ -56,6 +71,14 @@ class PathManager:
     def set_specific_path(self, key, path_str):
         self.paths[key] = str(Path(path_str))
         self._save_paths()
+
+    def launch_exe(self):
+        # 1. Put the EXE path FIRST in the list
+        cmd = [self.get_path_gameexe(), "+set", "fs_game", "cpma"]
+
+        # 2. Use the game root directly as the working directory
+        # (Do not use dirname here if get_game_root already points to the folder)
+        subprocess.Popen(cmd, cwd=self.get_game_root())
 
     def get_game_root(self):
         return self.paths.get("game_root")

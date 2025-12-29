@@ -831,39 +831,43 @@ WEAPON_SETTINGS = {
 }
 
 KEYBIND_SETTINGS = {
-    "vstr _weap1": {
+    "exec gui.cfg; vid_restart":{
+        "value": "m",
+        "label": "Load GUI Config"
+    },
+    "weapon 1": {
         "value": None,
         "label": "Gauntlet"
     },
-    "vstr _weap2": {
+    "weapon 2": {
         "value": None,
         "label": "Machine Gun"
     },
-    "vstr _weap3": {
+    "weapon 3": {
         "value": None,
         "label": "Shotgun"
     },
-    "vstr _weap4": {
+    "weapon 4": {
         "value": None,
         "label": "Grenade Launcher"
     },
-    "vstr _weap5": {
+    "weapon 5": {
         "value": None,
         "label": "Rocket Launcher"
     },
-    "vstr _weap6": {
+    "weapon 6": {
         "value": None,
         "label": "Lightning Gun"
     },
-    "vstr _weap7": {
+    "weapon 7": {
         "value": None,
         "label": "Rail Gun"
     },
-    "vstr _weap8": {
+    "weapon 8": {
         "value": None,
         "label": "Plasma Gun"
     },
-    "vstr _weap9": {
+    "weapon 9": {
         "value": None,
         "label": "BFG"
     },
