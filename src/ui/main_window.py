@@ -163,8 +163,6 @@ def update_gameexe_path(event=None):
 
 
 def export_config_dialog():
-    """Export: Updates logic, then asks user where to save the .cfg file."""
-    # 1. Ask user for a location
     export_path = filedialog.asksaveasfilename(
         title="Export Configuration",
         defaultextension=".cfg",
@@ -173,13 +171,9 @@ def export_config_dialog():
         initialfile="my_custom_settings.cfg"
     )
 
-    # 2. If they didn't cancel...
     if export_path:
-        # 3. Capture the latest settings from the UI
         sync_widgets_to_logic()
 
-        # 4. Save to the custom path
-        # We pass None for autoexec_path because we don't want to edit autoexec when exporting.
         save_current_config(export_path, None, True)
 
         print(f"Exported configuration to: {export_path}")
@@ -193,22 +187,17 @@ def make_clickable(widget, callback):
 
 
 def show_help(event, text):
-    """Creates a temporary popup window near the mouse."""
-    # Create the window
     tooltip = tk.Toplevel()
-    tooltip.wm_overrideredirect(True)  # Remove window frame/title bar
-    tooltip.wm_geometry(f"+{event.x_root + 15}+{event.y_root + 10}")  # Position near mouse
+    tooltip.wm_overrideredirect(True)
+    tooltip.wm_geometry(f"+{event.x_root + 15}+{event.y_root + 10}")
 
-    # Add the text label (Yellow background for 'tooltip' look)
     label = tk.Label(tooltip, text=text, background="#ffffe0", relief="solid", borderwidth=1, justify="left")
     label.pack()
 
-    # Store the window reference on the widget itself so we can find it later
     event.widget.tooltip_window = tooltip
 
 
 def hide_help(event):
-    """Destroys the popup window stored on the widget."""
     if hasattr(event.widget, 'tooltip_window'):
         event.widget.tooltip_window.destroy()
         del event.widget.tooltip_window
@@ -244,7 +233,6 @@ def load_to_ui():
 
 
 def sync_widgets_to_logic():
-    """Helper: Reads all UI widgets and updates the internal settings dictionaries."""
     for key, (widget, settings_dict) in widget_map.items():
         raw_val = widget.get().strip()
 
@@ -255,14 +243,11 @@ def sync_widgets_to_logic():
 
 
 def save_from_ui():
-    """Standard Save: Updates logic, then saves to the default gui.cfg."""
-    # 1. Update the dictionaries first
     sync_widgets_to_logic()
 
-    # 2. Save to the standard location
     save_current_config(paths.get_path_guicfg(), paths.get_path_autoexec(), False)
 
-    val_label4.config(text=f"Saved to: {paths.get_path_guicfg()}")
+    val_label4.config(text=f"{paths.get_path_guicfg()}")
     print("Config saved.")
 
 def clear_all_inputs():
@@ -409,10 +394,8 @@ for current_tab, current_settings in tabs_data:
                 w.grid(column=0, row=1 + row_i, sticky='w')
                 if i == "cg_drawCrosshair":
                     help_icon = ttk.Label(parent_frame, text="[?]", foreground="blue", cursor="hand2")
-                    # Place it in column 1 (to the right of the dropdown/entry)
                     help_icon.grid(row=1 + row_i, column=1, sticky='e', padx=5)
 
-                    # Bind the Crosshair text to it
                     help_icon.bind("<Enter>", lambda e: show_help(e, CROSSHAIR_INFO_TEXT))
                     help_icon.bind("<Leave>", hide_help)
                 widget_map[i] = (w, current_settings)

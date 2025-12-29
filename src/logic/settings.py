@@ -831,7 +831,7 @@ WEAPON_SETTINGS = {
 }
 
 KEYBIND_SETTINGS = {
-    "exec gui.cfg; vid_restart":{
+    "exec q3config; exec autoexec; exec gui.cfg; vid_restart":{
         "value": "m",
         "label": "Load GUI Config"
     },
