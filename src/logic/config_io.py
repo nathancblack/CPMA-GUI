@@ -109,7 +109,7 @@ def ensure_autoexec_reference(autoexec_path: Path):
     content = autoexec_path.read_text()
     if target_line not in content.lower():
         with open(autoexec_path, "a") as f:
-            f.write(f"\n// Load the GUI config\n bind m exec gui\n{target_line} // Ensure that this is the last line in the file!!\n")
+            f.write(f"\n// Load the GUI config\n{target_line} // Ensure that this is the last line in the file!!\n")
 
 
 # ------------------- TEST FUNCTIONS -------------------

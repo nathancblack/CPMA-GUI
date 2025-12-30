@@ -1,6 +1,8 @@
 import tkinter as tk
+import os
 from tkinter import ttk
 from tkinter import filedialog
+from src.logic.installer import install_assets, get_install_path
 from src.logic.paths import PathManager
 from src.logic.config_io import load_existing_config, save_current_config
 from src.logic.settings import (
@@ -381,7 +383,7 @@ for current_tab, current_settings in tabs_data:
                           font=('calibre', 10, 'bold')).grid(row=1 + row_i, column=1, sticky='w')
 
             w = None
-            if current_settings[i]['type'] in ["float", "int"]:
+            if current_settings[i]['type'] in ["float", "int", "bitmask"]:
                 w = ttk.Entry(parent_frame, width=8)
             elif current_settings[i]['type'] == "bool":
                 w = ttk.Combobox(parent_frame, values=["", "0", "1"], state="readonly", width=6)
@@ -417,7 +419,69 @@ save_config_button = ttk.Button(button_frame, text='Save Config', command=save_f
 save_config_button.pack(side="left", padx=5)
 
 
+def prompt_setup_choice(root):
+    popup = tk.Toplevel(root)
+    popup.title("First Time Setup")
+    popup.geometry("350x150")
+    popup.resizable(False, False)
+
+    user_choice = tk.StringVar(value=None)
+
+    def on_install():
+        user_choice.set("install")
+        popup.destroy()
+
+    def on_locate():
+        user_choice.set("locate")
+        popup.destroy()
+
+    lbl = tk.Label(popup, text="CPMA Assets not found.\nWhat would you like to do?", pady=10)
+    lbl.pack()
+
+    btn_frame = tk.Frame(popup)
+    btn_frame.pack(pady=10)
+
+    btn_install = tk.Button(btn_frame, text="Download & Install", width=15, command=on_install)
+    btn_install.pack(side="left", padx=10)
+
+    btn_locate = tk.Button(btn_frame, text="Locate Existing", width=15, command=on_locate)
+    btn_locate.pack(side="left", padx=10)
+
+    popup.transient(root)
+    popup.grab_set()
+    root.wait_window(popup)
+
+    return user_choice.get()
+
 if paths.get_game_root():
     refresh_path_display()
+
+else:
+
+    choice = prompt_setup_choice(app)
+
+    if choice == "install":
+        print("Starting installation...")
+        success = install_assets()
+        if success:
+            print("finished installing")
+
+            root_path = os.path.join(get_install_path(), "assets", "QUAKE3_CPMA_ASSETS")
+            exe_path = os.path.join(root_path, "cnq3-x64.exe")
+            paths.set_game_root(root_path)
+            paths.set_game_exe(exe_path)
+
+            refresh_path_display()
+
+    elif choice == "locate":
+        select_paths_dialog()
+
+    if choice is None:
+        app.destroy()
+    else:
+        app.deiconify()
+
+
+
 
 app.mainloop()

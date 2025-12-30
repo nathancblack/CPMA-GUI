@@ -73,11 +73,7 @@ class PathManager:
         self._save_paths()
 
     def launch_exe(self):
-        # 1. Put the EXE path FIRST in the list
         cmd = [self.get_path_gameexe(), "+set", "fs_game", "cpma"]
-
-        # 2. Use the game root directly as the working directory
-        # (Do not use dirname here if get_game_root already points to the folder)
         subprocess.Popen(cmd, cwd=self.get_game_root())
 
     def get_game_root(self):
