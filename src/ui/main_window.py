@@ -60,7 +60,7 @@ class CPMAApp(tk.Tk):
 
 
     def _build_info_box(self):
-        info_box = ttk.LabelFrame(self, text="Info")
+        info_box = ttk.Frame(self, borderwidth=2, relief="groove")
         info_box.pack(anchor="n", fill="x", padx=10, pady=10)
         info_box.columnconfigure(1, weight=1)
 
@@ -69,8 +69,7 @@ class CPMAApp(tk.Tk):
         self.lbl_auto, self.val_label3 = self._create_info_row(info_box, 2, "autoexec:", self.update_autoexec_path)
         self.lbl_exe, self.val_label5 = self._create_info_row(info_box, 3, "Game Executable:", self.update_gameexe_path)
 
-        ttk.Label(info_box, text="Generated gui.cfg:", font=('calibre', 10, 'bold')).grid(row=4, column=0, sticky="w",
-                                                                                          padx=10, pady=5)
+        ttk.Label(info_box, text="Generated gui.cfg:", font=('calibre', 10, 'bold')).grid(row=4, column=0, sticky="w",padx=10, pady=5)
         self.val_label4 = ttk.Label(info_box, text="...", font=('calibre', 10))
         self.val_label4.grid(row=4, column=1, sticky="w", padx=5, pady=5)
 
@@ -116,12 +115,7 @@ class CPMAApp(tk.Tk):
         # SPECIAL HANDLING FOR KEYBINDS
         if current_settings is KEYBIND_SETTINGS:
             for i in current_settings:
-                ttk.Label(parent_frame, text=current_settings[i]["label"], font=('calibre', 10, 'bold')).grid(row=row_i,
-                                                                                                              column=0,
-                                                                                                              sticky='w',
-                                                                                                              pady=5,
-                                                                                                              padx=(0,
-                                                                                                                    10))
+                ttk.Label(parent_frame, text=current_settings[i]["label"], font=('calibre', 10, 'bold')).grid(row=row_i,column=0,sticky='w',pady=5,padx=(0,10))
                 w = ttk.Entry(parent_frame, width=15)
                 w.grid(row=row_i, column=1, sticky='w', pady=5)
 
