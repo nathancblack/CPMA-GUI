@@ -61,7 +61,7 @@ class CPMAApp(tk.Tk):
 
     def _build_info_box(self):
         info_box = ttk.Frame(self, borderwidth=2, relief="groove")
-        info_box.pack(anchor="n", fill="x", padx=10, pady=10)
+        info_box.pack(anchor="n", fill="both", padx=10, pady=15)
         info_box.columnconfigure(1, weight=1)
 
         self.lbl_q3, self.val_label1 = self._create_info_row(info_box, 0, "Quake 3 Folder:", self.update_q3_path)
@@ -99,7 +99,7 @@ class CPMAApp(tk.Tk):
                 )
 
         tabControl = ttk.Notebook(self)
-        tabControl.pack(anchor="n", fill="both", expand=True, padx=10, pady=10)
+        tabControl.pack(anchor="n", fill="both", expand=True, padx=10, pady=(0,10))
 
         tabs_data = [
             ("Video", VIDEO_SETTINGS),
