@@ -66,7 +66,7 @@ class CPMAApp(tk.Tk):
 
         self.lbl_q3, self.val_label1 = self._create_info_row(info_box, 0, "Quake 3 Folder:", self.update_q3_path)
         self.lbl_cpma, self.val_label2 = self._create_info_row(info_box, 1, "cpma Folder:", self.update_cpma_path)
-        self.lbl_auto, self.val_label3 = self._create_info_row(info_box, 2, "autoexec:", self.update_autoexec_path)
+        self.lbl_auto, self.val_label3 = self._create_info_row(info_box, 2, "autoexec Config:", self.update_autoexec_path)
         self.lbl_exe, self.val_label5 = self._create_info_row(info_box, 3, "Game Executable:", self.update_gameexe_path)
 
         ttk.Label(info_box, text="Generated gui.cfg:", font=('calibre', 10, 'bold')).grid(row=4, column=0, sticky="w",padx=10, pady=5)
@@ -88,7 +88,15 @@ class CPMAApp(tk.Tk):
     def _build_tabs(self):
         style = ttk.Style()
         style.theme_use('clam')
-        style.configure('TNotebook.Tab', padding=[20, 2])
+
+        style.configure('TNotebook.Tab', padding=[36, 2])
+        style.map("TNotebook.Tab", padding=[("selected", [36, 2])])
+
+        style.map('TCombobox',
+                    fieldbackground=[('readonly', '#ffffff')],
+                    selectbackground=[('readonly', '#ffffff')],
+                    selectforeground=[('readonly', '#000000')]
+                )
 
         tabControl = ttk.Notebook(self)
         tabControl.pack(anchor="n", fill="both", expand=True, padx=10, pady=10)
@@ -115,7 +123,7 @@ class CPMAApp(tk.Tk):
         # SPECIAL HANDLING FOR KEYBINDS
         if current_settings is KEYBIND_SETTINGS:
             for i in current_settings:
-                ttk.Label(parent_frame, text=current_settings[i]["label"], font=('calibre', 10, 'bold')).grid(row=row_i,column=0,sticky='w',pady=5,padx=(0,10))
+                ttk.Label(parent_frame, text=current_settings[i]["label"], font=('calibre', 10, 'bold')).grid(row=row_i,column=0,sticky='w',pady=5,padx=10)
                 w = ttk.Entry(parent_frame, width=15)
                 w.grid(row=row_i, column=1, sticky='w', pady=5)
 
@@ -132,33 +140,32 @@ class CPMAApp(tk.Tk):
         else:
             for i in current_settings:
                 ttk.Label(parent_frame, text=current_settings[i]["label"], font=('calibre', 10, 'bold')) \
-                    .grid(row=row_i, column=0, sticky='nw', pady=(15, 0), padx=(0, 15))
+                    .grid(row=row_i, column=0, sticky='sw', padx=(10, 15), pady=(10, 0))
 
-                desc_label = ttk.Label(parent_frame, text=current_settings[i]["description"], font=('calibre', 10),
-                                       justify="left")
-                desc_label.grid(row=row_i, column=1, sticky='ew', pady=(15, 0))
+                desc_label = ttk.Label(parent_frame, text=current_settings[i]["description"], font=('calibre', 10),justify="left")
+                desc_label.grid(row=row_i, column=1, sticky='sew', padx=(0,10), pady=(10, 0))
                 desc_label.bind('<Configure>', lambda e: e.widget.config(wraplength=e.width))
 
                 if 'min' in current_settings[i]:
                     ttk.Label(parent_frame,
                               text=f"<{current_settings[i]['min']} to {current_settings[i]['max']}> (default: {current_settings[i].get('game_default', '')})",
-                              font=('calibre', 10, 'bold')).grid(row=row_i + 1, column=1, sticky='w')
+                              font=('calibre', 10, 'bold')).grid(row=row_i + 1, column=1, sticky='sw',pady=(0, 10))
                 else:
                     ttk.Label(parent_frame, text=f"(default: {current_settings[i].get('game_default', 'N/A')})",
-                              font=('calibre', 10, 'bold')).grid(row=row_i + 1, column=1, sticky='w')
+                              font=('calibre', 10, 'bold')).grid(row=row_i + 1, column=1, sticky='sw',pady=(0, 10))
 
                 w = None
                 if current_settings[i]['type'] in ["float", "int", "bitmask"]:
-                    w = ttk.Entry(parent_frame, width=8)
+                    w = ttk.Entry(parent_frame, width=14)
                 elif current_settings[i]['type'] == "bool":
-                    w = ttk.Combobox(parent_frame, values=["", "0", "1"], state="readonly", width=6)
+                    w = ttk.Combobox(parent_frame, values=["", "0", "1"], state="readonly", width=12)
                 elif current_settings[i]['type'] == "discrete":
-                    w = ttk.Combobox(parent_frame, values=["", "0", "1", "2"], state="readonly", width=7)
+                    w = ttk.Combobox(parent_frame, values=["", "0", "1", "2"], state="readonly", width=12)
                 elif current_settings[i]['type'] == "string":
-                    w = ttk.Entry(parent_frame, width=20)
+                    w = ttk.Entry(parent_frame, width=14)
 
                 if w:
-                    w.grid(column=0, row=row_i + 1, sticky='w')
+                    w.grid(column=0, row=row_i + 1, sticky='nw', padx=(10,0),pady=(0, 10))
                     if i == "cg_drawCrosshair":
                         help_icon = ttk.Label(parent_frame, text="[?]", foreground="blue", cursor="hand2")
                         help_icon.grid(row=row_i + 1, column=1, sticky='e', padx=5)
@@ -289,11 +296,11 @@ class CPMAApp(tk.Tk):
 
     def clear_all_inputs(self):
         for widget, _ in self.widget_map.values():
-            if isinstance(widget, ttk.Entry):
+            if isinstance(widget, ttk.Combobox):
+                if widget['values']:
+                    widget.current(0)
+            elif isinstance(widget, ttk.Entry):
                 widget.delete(0, tk.END)
-            elif isinstance(widget, ttk.Combobox):
-                widget.set("")
-
 
 if __name__ == "__main__":
     app = CPMAApp()
