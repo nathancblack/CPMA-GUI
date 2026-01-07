@@ -1,6 +1,7 @@
 # src/ui/dialogs.py
 import tkinter as tk
 
+
 def prompt_setup_choice(root, install_task):
     popup = tk.Toplevel(root)
     popup.title("First Time Setup")
@@ -11,7 +12,9 @@ def prompt_setup_choice(root, install_task):
 
     def on_install():
         btn_frame.destroy()
-        lbl.config(text="Installing assets...\nPlease wait, this may take a moment.")
+        lbl.config(
+            text="Installing assets to AppData\Local\CPMA_GUI...\nPlease wait, this will take a moment."
+        )
 
         popup.update()
 
@@ -28,16 +31,22 @@ def prompt_setup_choice(root, install_task):
         user_choice.set("locate")
         popup.destroy()
 
-    lbl = tk.Label(popup, text="CPMA Assets not found.\nWhat would you like to do?", pady=10)
+    lbl = tk.Label(
+        popup, text="CPMA Assets not found.\nWhat would you like to do?", pady=10
+    )
     lbl.pack()
 
     btn_frame = tk.Frame(popup)
     btn_frame.pack(pady=10)
 
-    btn_install = tk.Button(btn_frame, text="Download & Install", width=15, command=on_install)
+    btn_install = tk.Button(
+        btn_frame, text="Download & Install", width=15, command=on_install
+    )
     btn_install.pack(side="left", padx=10)
 
-    btn_locate = tk.Button(btn_frame, text="Locate Existing", width=15, command=on_locate)
+    btn_locate = tk.Button(
+        btn_frame, text="Locate Existing", width=15, command=on_locate
+    )
     btn_locate.pack(side="left", padx=10)
 
     popup.transient(root)
