@@ -13,7 +13,6 @@ def get_install_path():
     return install_path
 
 def open_game_folder():
-    # For open game folder button
     path = get_install_path()
     if os.path.exists(path):
         os.startfile(path)

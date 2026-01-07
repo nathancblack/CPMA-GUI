@@ -1,8 +1,3 @@
-# src/settings.py
-# This file contains the definitions for all configurable settings.
-# "value" starts as None and should be populated by the config reader.
-
-# --- 1. MOUSE SETTINGS ---
 MOUSE_SETTINGS = {
     "in_mouse": {
         "value": None,
@@ -98,7 +93,6 @@ MOUSE_SETTINGS = {
     }
 }
 
-# --- 2. VIDEO SETTINGS ---
 VIDEO_SETTINGS = {
     "r_gamma": {
         "value": None,
@@ -330,7 +324,6 @@ VIDEO_SETTINGS = {
     }
 }
 
-# --- 3. AUDIO SETTINGS ---
 AUDIO_SETTINGS = {
     "s_autoMute": {
         "value": None,
@@ -410,7 +403,6 @@ AUDIO_SETTINGS = {
     }
 }
 
-# --- 4. HUD & UI SETTINGS ---
 HUD_SETTINGS = {
     "cg_drawCrosshair": {
         "value": None,
@@ -508,7 +500,6 @@ HUD_SETTINGS = {
     }
 }
 
-# --- 5. PLAYER SETTINGS ---
 PLAYER_SETTINGS = {
     "name": {
         "value": None,
@@ -610,7 +601,6 @@ PLAYER_SETTINGS = {
     }
 }
 
-# --- 6. WEAPON SETTINGS ---
 WEAPON_SETTINGS = {
     "cg_drawBrightWeapons": {
         "value": None,

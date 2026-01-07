@@ -81,19 +81,13 @@ class CPMAApp(tk.Tk):
             info_box, 3, "Game Executable:", self.update_gameexe_path
         )
 
-        ttk.Label(
-            info_box, text="Generated gui.cfg:", font=("calibre", 10, "bold")
-        ).grid(row=4, column=0, sticky="w", padx=10, pady=5)
-        self.val_guicfg_path = ttk.Label(info_box, text="...", font=("calibre", 10))
-        self.val_guicfg_path.grid(row=4, column=1, sticky="w", padx=5, pady=5)
-
         select_btn = ttk.Button(
             info_box,
             text="Select Quake III Arena Folder",
             command=self.select_paths_dialog,
         )
         select_btn.grid(
-            row=5, column=0, columnspan=2, sticky="e", padx=10, pady=(5, 10)
+            row=4, column=0, columnspan=2, sticky="e", padx=10, pady=(5, 10)
         )
 
     def _create_info_row(self, parent, row, title, command):
@@ -310,7 +304,7 @@ class CPMAApp(tk.Tk):
 
     def confirm_clear_inputs(self):
         if messagebox.askyesno(
-            "Clear Inputs", "Are you sure you want to clear all inputs?"
+            "Clear Inputs", "Are you sure you want to clear all the input boxes?"
         ):
             self.clear_all_inputs()
 
@@ -341,7 +335,6 @@ class CPMAApp(tk.Tk):
             self.val_q3_path.config(text=self.paths.get_game_root())
             self.val_cpma_path.config(text=self.paths.get_path_cpma())
             self.val_autoexec_path.config(text=self.paths.get_path_autoexec())
-            self.val_guicfg_path.config(text=self.paths.get_path_guicfg())
             if self.paths.get_path_gameexe():
                 self.val_exe_path.config(text=self.paths.get_path_gameexe())
             self.load_to_ui()
@@ -430,7 +423,6 @@ class CPMAApp(tk.Tk):
         save_current_config(
             self.paths.get_path_guicfg(), self.paths.get_path_autoexec(), False
         )
-        self.val_guicfg_path.config(text=f"{self.paths.get_path_guicfg()}")
         print("Config saved.")
 
     def clear_all_inputs(self):
