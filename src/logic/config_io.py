@@ -50,8 +50,6 @@ def apply_bind_values(extracted_binds: Dict[str, str], bind_settings: Dict):
 
 
 def generate_config_content(settings_groups: List[Dict], export: bool) -> str:
-    # Generates the full string content for the config file
-
     lines = [
         "// CPMA GUI Configuration File",
         "// Generated automatically by CPMA Config Editor",
