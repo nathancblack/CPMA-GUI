@@ -5,10 +5,10 @@ from pathlib import Path
 
 
 class PathManager:
-    def __init__(self, config_folder_name="CPMA_Config_Editor", filename="paths.json"):
+    def __init__(self, config_folder_name="CPMA_GUI_APP", filename="paths.json"):
         # 1. Get the standard Windows AppData folder
         # e.g., C:\Users\Nathaniel\AppData\Roaming
-        appdata = os.getenv('APPDATA')
+        appdata = os.getenv('LOCALAPPDATA')
 
         # 2. Define your specific folder
         self.config_dir = Path(appdata) / config_folder_name

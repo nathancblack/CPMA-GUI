@@ -9,7 +9,7 @@ def get_install_path():
     if not local_app_data:
         local_app_data = os.path.expanduser("~\\AppData\\local")
 
-    install_path = os.path.join(local_app_data, "CPMA_GUI")
+    install_path = os.path.join(local_app_data, "CPMA_GUI_APP")
     return install_path
 
 def open_game_folder():
